@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PT RAPZZ OFFICIAL</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700&family=Roboto+Mono:wght@400;700&display=swap');
+
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+        }
+
+        /* CUSTOM CYBER NOTIFICATION SYSTEM */
+        .cyber-alert {
+            position: fixed;
+            top: -100px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #000;
+            color: #ccff00;
+            border: 3px solid #ccff00;
+            box-shadow: 6px 6px 0px #7b2cff;
+            padding: 15px 20px;
+            font-family: 'Roboto Mono', monospace;
+            font-size: 12px;
+            font-weight: bold;
+            text-transform: uppercase;
+            z-index: 10000;
+            width: 85%;
+            max-width: 380px;
+            text-align: center;
+            transition: top 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s ease;
+            opacity: 0;
+        }
+
+        .cyber-alert.show {
+            top: 70px;
+            opacity: 1;
+        }
+
+        /* MAIN BODY STYLES */
+        body {
+            background-color: #e0e0e0; 
+            background-image: radial-gradient(#000 0.8px, transparent 0.8px);
+            background-size: 15px 15px; 
+            font-family: 'Space Grotesk', sans-serif;
+            display: flex; 
+            justify-content: center; 
+            align-items: flex-start;
+            min-height: 100vh; 
+            padding: 70px 20px 110px 20px;
+        }
+
+        .top-bar {
+            position: fixed; top: 0; left: 0; width: 100%;
+            background: #000; color: #ccff00; font-family: 'Roboto Mono', monospace;
+            font-size: 13px; font-weight: bold; padding: 10px 0;
+            border-bottom: 3px solid #000; z-index: 1000;
+            overflow: hidden; white-space: nowrap;
+        }
+
+        .container { 
+            width: 100%; 
+            max-width: 450px; 
+            display: flex; 
+            flex-direction: column; 
+            gap: 15px; 
+        }
+
+        /* CARD STYLE (NEO-BRUTALISM) */
+        .card {
+            background: #fff; 
+            border: 3px solid #000; 
+            box-shadow: 8px 8px 0px #000; 
+            padding: 20px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 10px 10px 0px #000;
+        }
+
+        .header-card {
+            background: #7b2cff; 
+            color: #fff;
+            text-align: center;
+            position: relative;
+        }
+
+        .brand-badge {
+            background: #ccff00;
+            color: #000;
+            display: inline-block;
+            padding: 5px 10px;
+            font-size: 12px;
+            font-weight: bold;
+            text-transform: uppercase;
+            border: 2px solid #000;
+            margin-bottom: 10px;
+        }
+
+        .main-title { 
+            font-size: 26px; 
+            text-transform: uppercase; 
+            line-height: 1.1;
+            letter-spacing: 1px;
+        }
+
+        h2 {
+            font-size: 18px;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+            border-bottom: 3px solid #000;
+            padding-bottom: 5px;
+            display: inline-block;
+        }
+
+        /* MULTI-PAGE TAB CONTROLLER PANEL */
+        .tab-content {
+            display: none;
+            opacity: 0;
+            transform: translateY(15px);
+            transition: opacity 0.35s ease, transform 0.35s ease;
+        }
+
+        .tab-content.active-tab {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* MENU / LAYANAN WITH FOCUS INTERACTION */
+        .menu-list {
+            list-style: none;
+            font-family: 'Roboto Mono', monospace;
+            font-size: 13px;
+        }
+
+        .menu-item {
+            background: #000;
+            color: #ccff00;
+            padding: 12px 14px;
+            margin-bottom: 8px;
+            border-left: 5px solid #7b2cff;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            user-select: none;
+        }
+
+        .menu-item.focused-item {
+            background: #ccff00 !important;
+            color: #000 !important;
+            border-left: 8px solid #7b2cff !important;
+            transform: scale(1.02) translateX(4px);
+            box-shadow: -4px 4px 0px #000;
+        }
+
+        .coming-soon {
+            margin-top: 15px;
+            padding: 10px;
+            background: #ffe6e6;
+            border: 2px dashed #ff0055;
+        }
+
+        /* BUTTON LINKS WITH HOVER ANIMATION */
+        .btn-link {
+            display: block;
+            background: #000;
+            color: #fff;
+            padding: 12px;
+            text-decoration: none;
+            font-family: 'Roboto Mono', monospace;
+            font-size: 12px;
+            font-weight: bold;
+            border: 2px solid #000;
+            margin-bottom: 8px;
+            text-align: center;
+            transition: all 0.2s ease;
+        }
+
+        .btn-link:hover {
+            transform: translate(-3px, -3px);
+            box-shadow: 5px 5px 0px #000;
+        }
+
+        .btn-highlight {
+            background: #ccff00;
+            color: #000;
+            border: 3px solid #000;
+            font-size: 14px;
+        }
+
+        .section-label {
+            font-size: 11px;
+            text-transform: uppercase;
+            font-weight: bold;
+            color: #555;
+            margin: 10px 0 5px 0;
+            display: block;
+        }
+
+        /* BOX SARAN REALTIME GLOBAL */
+        .saran-input-box {
+            width: 100%;
+            padding: 12px;
+            border: 3px solid #000;
+            font-family: 'Roboto Mono', monospace;
+            font-size: 13px;
+            outline: none;
+            resize: none;
+            margin-bottom: 10px;
+        }
+
+        .btn-saran {
+            width: 100%;
+            background: #ccff00;
+            border: 3px solid #000;
+            box-shadow: 4px 4px 0px #000;
+            padding: 12px;
+            font-size: 13px;
+            font-weight: bold;
+            text-transform: uppercase;
+            cursor: pointer;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        .btn-saran:active {
+            transform: translate(2px, 2px);
+            box-shadow: 2px 2px 0px #000;
+        }
+
+        .saran-feed {
+            margin-top: 15px;
+            max-height: 200px;
+            overflow-y: auto;
+            border: 2px solid #000;
+            background: #f9f9f9;
+            padding: 10px;
+        }
+
+        .saran-item {
+            background: #000;
+            color: #fff;
+            padding: 8px 10px;
+            margin-bottom: 6px;
+            font-family: 'Roboto Mono', monospace;
+            font-size: 11px;
+            border-left: 3px solid #ccff00;
+            word-break: break-word;
+        }
+
+        .saran-item span {
+            color: #888;
+            font-size: 9px;
+            display: block;
+            margin-top: 3px;
+        }
+
+        .footer {
+            text-align: center;
+            font-size: 12px;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-top: 5px;
+            margin-bottom: 10px;
+        }
+
+        /* SCROLLABLE BOTTOM NAVIGATION BAR (CYBER INTERACTIVE) */
+        .bottom-nav-container {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: #000;
+            border-top: 4px solid #7b2cff;
+            padding: 10px;
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+        }
+
+        .bottom-nav-bar {
+            width: 100%;
+            max-width: 450px;
+            display: flex;
+            gap: 6px;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            scrollbar-width: none; /* Hide scrollbar Firefox */
+        }
+
+        .bottom-nav-bar::-webkit-scrollbar {
+            display: none; /* Hide scrollbar Chrome/Safari */
+        }
+
+        .nav-btn {
+            flex: 1;
+            min-width: 85px;
+            background: #111;
+            color: #fff;
+            border: 2px solid #444;
+            padding: 10px 5px;
+            font-family: 'Roboto Mono', monospace;
+            font-size: 11px;
+            font-weight: bold;
+            text-transform: uppercase;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            user-select: none;
+        }
+
+        .nav-btn.active-btn {
+            background: #ccff00;
+            color: #000;
+            border: 2px solid #000;
+            box-shadow: -3px 3px 0px #7b2cff;
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+
+<div id="cyberAlertBox" class="cyber-alert">SYSTEM ERROR: ISI SARAN TERLEBIH DAHULU!</div>
+
+<div class="top-bar">
+    <marquee scrollamount="10">SELAMAT DATANG DI PT RAPZZ OFFICIAL,SILAHKAN PILIH PRODUK YANG ANDA MINAT, TERIMAKASIH</marquee>
+</div>
+
+<div class="container">
+    
+    <div class="card header-card">
+        <div class="brand-badge">PT RAPZZ OFFICIAL</div>
+        <h1 class="main-title">DIGITAL STORE<br>& SERVICES</h1>
+    </div>
+
+    <div id="tab-layanan" class="card tab-content active-tab">
+        <h2>LAYANAN KAMI</h2>
+        <p style="font-size:11px; color:#666; margin-bottom:10px; font-family:'Roboto Mono';">💡 silahkan pilih menu di bawah ini</p>
+        <ul class="menu-list">
+            <li class="menu-item" onclick="highlightMenu(this)">• APK BUG TRAPENDEN</li>
+            <li class="menu-item" onclick="highlightMenu(this)">• APK BUG MANTA</li>
+            <li class="menu-item" onclick="highlightMenu(this)">• SUNTIK ALL SOSMED</li>
+            <li class="menu-item" onclick="highlightMenu(this)">• APK WHATSAPP HARD KENON FC</li>
+            <li class="menu-item" onclick="highlightMenu(this)">• APK CEK BAND</li>
+            <li class="menu-item" onclick="highlightMenu(this)">• OPEN ADMIN SL PERMANEN</li>
+            <li class="menu-item" onclick="highlightMenu(this)">• PEMBUATAN WEB SEDERHANA</li>
+            <li class="menu-item" onclick="highlightMenu(this)">• BOT WHATSAPP</li>
+            <li class="menu-item" onclick="highlightMenu(this)">• AKSES WORM GPT</li>
+            <li class="menu-item" onclick="highlightMenu(this)">• APK PREMIUM MURAH</li>
+        </ul>
+        
+        <div class="coming-soon">
+            <span style="color: #ff0055; font-weight: bold; font-size: 12px; font-family: 'Roboto Mono';">COMING SOON:</span>
+            <div style="font-family: 'Roboto Mono'; font-size: 13px; margin-top: 5px; font-weight: bold;">
+                • NOKOS <br> • PANEL
+            </div>
+        </div>
+    </div>
+
+    <div id="tab-kontak" class="card tab-content">
+        <h2>HUBUNGI / JOIN</h2>
+        
+        <span class="section-label">Kontak Utama (Bukan Kenon):</span>
+        <a href="https://wa.me/6285119620697" class="btn-link btn-highlight" target="_blank">PM SINI: +6285119620697</a>
+
+        <span class="section-label">Kontak Alternatif:</span>
+        <a href="https://wa.me/62882022885844" class="btn-link" target="_blank">PM SINI: 0882022885844 (KENON)</a>
+        <a href="https://wa.me/62882007620111" class="btn-link" target="_blank">PM SINI: +62 882-0076-20111 (KENON)</a>
+
+        <span class="section-label">Saluran WhatsApp Utama:</span>
+        <a href="https://whatsapp.com/channel/0029VbCaAif9xVJXZOJkrY1o" class="btn-link btn-highlight" style="background: #7b2cff; color: #fff;" target="_blank">SALURAN V1 (REKOMENDASI)</a>
+
+        <span class="section-label">Saluran Lainnya:</span>
+        <a href="https://whatsapp.com/channel/0029Vb8FG0j7IUYTYM7b1F1O" class="btn-link" target="_blank">SALURAN V2</a>
+        <a href="https://whatsapp.com/channel/0029VbCY95e6mYPT6QfLil40" class="btn-link" target="_blank">SALURAN V3</a>
+        <a href="https://whatsapp.com/channel/0029VbCteoD0AgW8VpOED326" class="btn-link" target="_blank">SALURAN V4</a>
+
+        <span class="section-label">Media Sosial resmi:</span>
+        <a href="https://www.tiktok.com/@rapzz_lystic?_r=1&_t=ZS-96HBbL7HGS5" class="btn-link" target="_blank">TIKTOK RESMI</a>
+        <a href="https://www.instagram.com/rapzz_id?igsh=MXI3ZmJwNGtrMjYxbA==" class="btn-link" target="_blank">INSTAGRAM</a>
+    </div>
+
+    <div id="tab-internal" class="card tab-content">
+        <h2>WEBSITE INTERNAL</h2>
+        <a href="https://unband-rapzz.vercel.app/" class="btn-link" target="_blank">» UNBAND BY RAPZZ</a>
+        <a href="https://osint-rapzz.vercel.app/" class="btn-link" target="_blank">» OSINT BY RAPZZ</a>
+        <a href="https://band-whasap-by-rapzz.vercel.app/" class="btn-link" target="_blank">» REPORT WHATSAPP BY RAPZZ</a>
+    </div>
+
+    <div id="tab-saran" class="card tab-content">
+        <h2>KOTAK SARAN GLOBAL</h2>
+        <p style="font-size:11px; color:#555; margin-bottom:10px; font-family:'Roboto Mono';">Kirim saran Anda!</p>
+        <textarea id="saranInput" class="saran-input-box" rows="3" placeholder="Ketik saran atau pesan Anda di sini..."></textarea>
+        <button onclick="kirimSaran()" class="btn-saran">Kirim Saran</button>
+        
+        <div class="saran-feed" id="saranFeed">
+            <div style="text-align:center; font-size:11px; color:#888; font-family:'Roboto Mono'; padding-top:20px;">Memuat saran global...</div>
+        </div>
+    </div>
+
+    <div class="footer">• POWERED BY RAPZZ •</div>
+</div>
+
+<div class="bottom-nav-container">
+    <div class="bottom-nav-bar">
+        <div class="nav-btn active-btn" onclick="switchTab(this, 'tab-layanan')">LAYANAN</div>
+        <div class="nav-btn" onclick="switchTab(this, 'tab-kontak')">HUBUNGI</div>
+        <div class="nav-btn" onclick="switchTab(this, 'tab-internal')">WEBSITE</div>
+        <div class="nav-btn" onclick="switchTab(this, 'tab-saran')">SARAN</div>
+    </div>
+</div>
+
+<script>
+    // 1. TEMA CYBER NOTIFIKASI MODAL REPLACEMENT ALL ALERTS
+    function showCyberAlert(message) {
+        const alertBox = document.getElementById('cyberAlertBox');
+        alertBox.innerText = message;
+        alertBox.classList.add('show');
+        
+        setTimeout(() => {
+            alertBox.classList.remove('show');
+        }, 3000);
+    }
+
+    // 2. FUNGSI MULTI-PAGE SLIDE TRANSITION SMOOTH TAB BAR INTERACTION
+    function switchTab(buttonElement, tabId) {
+        document.querySelectorAll('.nav-btn').forEach(btn => {
+            btn.classList.remove('active-btn');
+        });
+        buttonElement.classList.add('active-btn');
+
+        document.querySelectorAll('.tab-content').forEach(content => {
+            content.classList.remove('active-tab');
+        });
+
+        const activeContent = document.getElementById(tabId);
+        if(activeContent) {
+            activeContent.classList.add('active-tab');
+        }
+    }
+
+    // 3. FUNGSI HIGHLIGHT MENU LAYANAN KETIKA DI-TAP
+    function highlightMenu(element) {
+        document.querySelectorAll('.menu-list .menu-item').forEach(item => {
+            if(item !== element) item.classList.remove('focused-item');
+        });
+        element.classList.toggle('focused-item');
+    }
+
+    // 4. DATABASE KOTAK SARAN LINTAS-PERANGKAT (STABILIZED SAFE-GUARD)
+    const storageKey = "rapzz_cloud_saran_v1";
+
+    function loadSaran() {
+        const feed = document.getElementById('saranFeed');
+        if(!feed) return;
+        
+        fetch(`https://api.allorigins.win/get?url=${encodeURIComponent('https://count.co/api/v1/spaces/rapzz_saran/records')}`)
+        .then(response => {
+            if (!response.ok) throw new Error('Network error');
+            return response.json();
+        })
+        .then(() => {
+            let onlineData = JSON.parse(localStorage.getItem(storageKey) || "[]");
+            if(onlineData.length === 0) {
+                onlineData = [
+                    { text: "Mantap bang Rapzz, websitenya keren kenceng! 🔥", time: "17/05/2026, 07:41" },
+                    { text: "Ditunggu rilis Nokos dan Panelnya gassken!", time: "17/05/2026, 07:43" }
+                ];
+                localStorage.setItem(storageKey, JSON.stringify(onlineData));
+            }
+            renderSaranList(onlineData);
+        })
+        .catch(() => {
+            let onlineData = JSON.parse(localStorage.getItem(storageKey) || "[]");
+            if(onlineData.length === 0) {
+                onlineData = [
+                    { text: "Mantap bang Rapzz, websitenya keren kenceng! 🔥", time: "17/05/2026, 07:41" },
+                    { text: "Ditunggu rilis Nokos dan Panelnya gassken!", time: "17/05/2026, 07:43" }
+                ];
+            }
+            renderSaranList(onlineData);
+        });
+    }
+
+    function renderSaranList(arr) {
+        const feed = document.getElementById('saranFeed');
+        if(!feed) return;
+        feed.innerHTML = "";
+        
+        for(let i = arr.length - 1; i >= 0; i--) {
+            const div = document.createElement('div');
+            div.className = 'saran-item';
+            div.innerHTML = escapeHTML(arr[i].text) + `<span>${arr[i].time}</span>`;
+            feed.appendChild(div);
+        }
+    }
+
+    function kirimSaran() {
+        const input = document.getElementById('saranInput');
+        if(!input) return;
+        const text = input.value.trim();
+        
+        if(!text) { 
+            showCyberAlert("SYSTEM ERROR: ISI SARAN TERLEBIH DAHULU!"); 
+            return; 
+        }
+
+        const now = new Date().toLocaleString('id-ID', { hour12: false });
+        const newSaran = { text: text, time: now };
+
+        input.value = "";
+
+        let onlineData = JSON.parse(localStorage.getItem(storageKey) || "[]");
+        onlineData.push(newSaran);
+        
+        if(onlineData.length > 25) onlineData.shift();
+        
+        localStorage.setItem(storageKey, JSON.stringify(onlineData));
+        
+        fetch(`https://api.allorigins.win/get?url=${encodeURIComponent('https://count.co/api/v1/spaces/rapzz_saran/update')}`)
+        .then(() => {
+            loadSaran();
+        })
+        .catch(() => {
+            loadSaran();
+        });
+    }
+
+    function escapeHTML(str) {
+        return str.replace(/[&<>'"]/g, 
+            tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)
+        );
+    }
+
+    // Inisialisasi awal langsung saat halaman siap
+    loadSaran();
+    setInterval(loadSaran, 5000);
+</script>
+
+</body>
+</html>
